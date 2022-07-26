@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import TodoList from './TodoList';
 
-function App() {
+const App = () => {
+  const [todo, setTodo] = useState([]);
+  const [input, setInput] = useState('')
+  const changeHandler = (e)=>{
+    setInput(e.target.value);
+  }
+  const clickHandler = (e)=>{
+    e.preventDefault();
+    setTodo([...todo, input])
+    setInput('')
+  }
+  const deleteHandler = (indexVal)=>{
+    const newtodo = todo.filter((item,index)=>index!==indexVal);
+    setTodo(newtodo);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <center>
+        <h1>REACT TODO APP</h1>
+        <TextField onChange={changeHandler} value={input} id="outlined-basic" label="Enter here" variant="outlined" /> <br/>
+        <h1></h1>
+        <Button onClick={clickHandler} variant='contained'>Add</Button>
+        <h1></h1>
+        <TodoList todo={todo} deleteHandler={deleteHandler}/>
+        
+      </center>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
